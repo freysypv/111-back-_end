@@ -18,11 +18,25 @@ def init_db():
             password TEXT NOT NULL              
                    
                    )
+        """)
+    
 
-""")
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS expenses (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            description TEXT NOT NULL,
+            date TEXT,
+            amount INTEGER NOT NULL,
+            category TEXT NOT NULL,
+            user_id INTEGER,
+            FOREIGN KEY(user_id) REFERENCES users(id)      
+        )
+    """)
     
     connection.commit()# save changes to the D.B
-    connection.close()# close the connection to the D>B
+    connection.close()# close the connection to the D.B
 
 
 
@@ -57,6 +71,33 @@ def register():
         "message": "user setup successful"
     }), 201
 
+#http://127.0.0.1:5000/api/coupons
+@app.post('/api/expenses')
+def create_expenses():
+    #logic here
+    new_expense = request.get_json()
+    print(new_expense)
+
+    title = new_expense["title"]
+    description = new_expense["description"]
+    amount = new_expense["amount"]
+    date = new_expense["date"]
+    category = new_expense["category"]
+    user_id = new_expense["user_id"]
+
+    connection = sqlite3.connect(DB_NAME)
+    cursor = connection.cursor()
+    cursor.execute("""
+        INSERT INTO expenses (title, description, amount, date, category, user_id)
+          VALUES(?, ?, ?, ?, ?, ?)""",(title, description, amount, date, category, user_id))
+    
+    connection.commit()
+    connection.close()
+
+    return jsonify({
+        "success": True,
+        "message": "Expenses created successfully"
+    }), 201
 
 if __name__ == '__main__':
     init_db()
