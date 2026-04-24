@@ -70,15 +70,15 @@ def register():
 @app.get('/api/users/<int:user_id>')
 def get_user_by_id(user_id):
     #logic here
-    connetion = sqlite3.connect(DB_NAME)
-    connetion.row_factory = sqlite3.Row # allows columns values to be retrieved by name, roe = ["username"]
-    cursor = connetion.cursor()
-    cursor.execute("SELECT id, username FROM users WHERE id=?", (user_id,)) # the * print all collumns but by beun expesific we can get exacly what we need.
+    connection = sqlite3.connect(DB_NAME)
+    connection.row_factory = sqlite3.Row # allows columns values to be retrieved by name, row = ["username"]
+    cursor = connection.cursor()
+    cursor.execute("SELECT id username FROM users WHERE id=?", (user_id,)) # the * print all collumns but by beun expesific we can get exacly what we need.
     row = cursor.fetchone()
     print(row)
     print(dict(row))
     user_information = dict(row)
-    connetion.close()
+    connection.close()
 
     return jsonify({
         "success": "true",
@@ -198,9 +198,9 @@ def get_expenses():
     connection = sqlite3.connect(DB_NAME) 
     connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM expenses")
+    cursor.execute("SELECT id, title, description, amount, date, category FROM expenses")
     rows = cursor.fetchall()
-    print(rows)
+    # print(rows)
     connection.close()
 
     expenses = []
@@ -208,7 +208,9 @@ def get_expenses():
         print(dict(row))
         expenses.append(dict(row))
 
-        return jsonify({
+
+   
+    return jsonify({
             "success": True,
             "message": "Expenses reprieved successfully",
             "data": expenses
@@ -216,12 +218,13 @@ def get_expenses():
     
     #GET /api/expenses/
     #GET Http://127.0.0.1:5000/api/
-@app.get('/api/expenses/<int:expenses_id>')
-def get_expenses_by_id(expenses_id):
+@app.get('/api/expenses/<int:expense_id>')
+def get_expenses_by_id(expense_id):
     #logic
     connection = sqlite3.connect(DB_NAME)
+    connection.row_factory = sqlite3.Row
     cursor = connection.cursor()
-    cursor.execute("SELECT id, FROM expenses WHERE id=?", (expenses_id,))
+    cursor.execute("SELECT * FROM expenses WHERE id=?", (expense_id,))
     row = cursor.fetchone()
     print(row)
     print(dict(row))
@@ -251,7 +254,7 @@ def update_expense(expense_id):
     cursor = connection.cursor()
 
     #validation
-    cursor.execute("""SELECT * FROM expenses WHERE id=?""", (expense_id,))
+    cursor.execute("""SELECT * FROM users WHERE id=?""", (expense_id,))    
     row = cursor.fetchone()
     if not row:
         connection.close()
@@ -261,7 +264,7 @@ def update_expense(expense_id):
     }),404
 
 
-    cursor.execute("""UPDATE expenses SET title=?, description=?, amount=?, date=?, category=?, WHERE id=?""", (title, description, amount, date, category, expense_id))
+    cursor.execute("""UPDATE expenses SET title=?, description=?, amount=?, date=?, category=? WHERE id=?""", (title, description, amount, date, category, expense_id))
     connection.commit()
     connection.close()
 
@@ -273,7 +276,7 @@ def update_expense(expense_id):
     
     
 
-#
+# http://127.0.0.1:5000/api/expenses
 #DELETE expenses
 @app.delete('/api/expenses/<int:expense_id>')
 def delete_expense(expense_id):
@@ -281,9 +284,8 @@ def delete_expense(expense_id):
     connection = sqlite3.connect(DB_NAME)
     cursor = connection.cursor()
    
-
     # VALIDATION
-    cursor.execute("""SELECT * FROM users WHERE id=?""", (expense_id,))
+    cursor.execute("""SELECT id FROM expenses WHERE id=?""", (expense_id,))
     row = cursor.fetchone()
     if not row:
         return jsonify({
