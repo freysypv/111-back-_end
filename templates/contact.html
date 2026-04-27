@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block title %} Home Page {% endblock title %}
+
+{% block content %}
+
+<body class="m-2 p-2 bg-success-subtle opacity-70">
+
+    <h1 class="text-center mb-5 p-4">Welcome to My Site</h1>
+
+    <h5 class="text-info text-center">Contact us with any questions of conserns!</h5>
+
+    <form  class="flex-md-column p-2 m-2 border rounded bg-opacity-20 box-shodow-10 bg-">
+        <h3 class="m-2 p-2">comments!</h3>
+        <div>
+            <label for="text" class="form-label">Name</label>
+            <input class="form-control m-2 p-2" type="text" placeholder="Name" aria-label="Name ">
+            <label for="Email1" class="form-label">Email address</label>
+            <input class="form-control m-2 p-2" type="text" placeholder="email" aria-label="email">
+            <label for="Message" class="form-label">Message</label>
+            <input class="form-control form-control-sm m-2 p-2" type="textarea" placeholder="Message" aria-label="Message">
+        </div>
+    <button type="submit" class="btn btn-primary m-4 p-2">Submit</button>
+    </form>
+    
+
+    
+
+    <div class="container text-center border border-danger ">
+     <div class="row">
+        <div class="col">
+        <h3></h3>
+        </div>
+        <div class="col">
+            <h3></h3>
+        2 of 2
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <h3></h3>
+        1 of 3
+        </div>
+        <div class="col">
+        <h3></h3> 
+        2 of 3
+        </div>
+        <div class="col">
+            <h3></h3>
+        3 of 3
+        </div>
+    </div>
+</div>
+</body>
+   
+{% endblock content%}

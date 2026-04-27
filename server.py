@@ -1,4 +1,4 @@
-from flask import Flask, jsonify,request
+from flask import Flask, jsonify, request, render_template
 
 app = Flask(__name__)
 import sqlite3
@@ -253,8 +253,8 @@ def update_expense(expense_id):
     connection = sqlite3.connect(DB_NAME)
     cursor = connection.cursor()
 
-    #validation
-    cursor.execute("""SELECT * FROM users WHERE id=?""", (expense_id,))    
+    #validations
+    cursor.execute("""SELECT * FROM expenses WHERE id=?""", (expense_id,))    
     row = cursor.fetchone()
     if not row:
         connection.close()
@@ -264,7 +264,9 @@ def update_expense(expense_id):
     }),404
 
 
-    cursor.execute("""UPDATE expenses SET title=?, description=?, amount=?, date=?, category=? WHERE id=?""", (title, description, amount, date, category, expense_id))
+    cursor.execute("""UPDATE expenses 
+        SET title=?, description=?, amount=?, date=?, category=? WHERE id=?""", (title, description, amount, date, category, expense_id))
+    
     connection.commit()
     connection.close()
 
@@ -304,6 +306,39 @@ def delete_expense(expense_id):
     
 
 
+    #____front_end_______
+@app.get('/')
+@app.get('/index')
+@app.get('/home')
+def home():
+    # logic
+    my_name = "Freysy Pena"
+    return render_template("index.html", name=my_name)
+
+
+@app.get('/about')
+def about():
+    my_name="Freysy Pena"
+    my_cohort=65
+    this_year=2026
+
+    data = { 
+        "name":"Freysy Pena",
+        "cohort":65,
+        'year':"2026"}
+
+    return render_template("about.html", name=my_name, cohort=my_cohort, year=this_year, data=data)
+
+
+@app.get('/contact')
+def contact():
+    return render_template("contact.html")
+
 if __name__ == '__main__':
     init_db()
     app.run(debug=True)
+
+
+    #data = {" my_name="Freysy Pena",
+    #"my_cohort"=65,
+    #this_year="2026"}
