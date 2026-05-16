@@ -3,35 +3,42 @@
 {% block title %} Home Page {% endblock title %}
 
 {% block content %}
-
-<body class="m-2 p-2 bg-success-subtle opacity-70">
+<main class="container my-4">
 
     <h1 class="text-center mb-5 p-4 fs-2">Welcome to My Site</h1>
 
-    <h5 class="text-info text-center p-2 m-2 fs-3">For any questions or conserns!</h5>
+    <h5 class="text-info text-center p-2 mb-4 fs-3">For any questions or concerns!</h5>
 
-    <form  class="flex-md-column p-2 m-2 border rounded bg-opacity-50 box-shodow-10 bg-secondary">
-        <h3 class="m-2 p-2">Contact us!</h3>
-        <div>
-            <label for="text" class="form-label">Name</label>
-            <input class="form-control m-2 p-2" type="text" placeholder="Name" aria-label="Name ">
-            <label for="Email1" class="form-label">Email address</label>
-            <input class="form-control m-2 p-2" type="text" placeholder="email" aria-label="email">
-            <label for="Message" class="form-label">Message</label>
-            <input class="form-control form-control-sm m-2 p-2" type="textarea" placeholder="Message" aria-label="Message">
+    <div class="row g-4">
+        <!-- Contact Form Column -->
+        <div class="col-md-6">
+            <form class="p-4 border rounded bg-secondary bg-opacity-10 shadow-sm">
+                <h3 class="mb-3">Contact us!</h3>
+                
+                <div class="mb-3">
+                    <label id="nameLabel" for="userName" class="form-label">Name</label>
+                    <input class="form-control" id="userName" type="text" placeholder="Name" aria-labelledby="nameLabel">
+                </div>
+                
+                <div class="mb-3">
+                    <label id="emailLabel" for="userEmail" class="form-label">Email address</label>
+                    <input class="form-control" id="userEmail" type="email" placeholder="name@example.com" aria-labelledby="emailLabel">
+                </div>
+                
+                <div class="mb-3">
+                    <label id="messageLabel" for="userMessage" class="form-label">Message</label>
+                    <textarea class="form-control" id="userMessage" rows="4" placeholder="Your message here..." aria-labelledby="messageLabel"></textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 mt-2">Submit</button>
+            </form>
         </div>
-    <button type="submit" class="btn btn-primary m-4 p-2">Submit</button>
-    </form>
-    
 
-    
+        <!-- Image Column -->
+        <div class="col-md-6 d-flex align-items-stretch">
+            <img src="https://images.unsplash.com/photo-1775120062029-f5b7eb28e737?q=80&w=1035&auto=format&fit=crop" class="img-fluid rounded object-fit-cover w-100" alt="Contact illustration">
+        </div>
+    </div>
 
-   <div class="d-flex p-2 w-60" style="height:55rem;">
-     <img src="https://images.unsplash.com/photo-1775120062029-f5b7eb28e737?q=80&w=1035&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="card-img-top m-2 p-2" alt="">
-
-      
- 
-   </div>
-</body>
-   
-{% endblock content%}
+</main>
+{% endblock content %}
